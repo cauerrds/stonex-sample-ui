@@ -24,7 +24,8 @@ const UserList = ({users}:UserListProps) => {
     if(Array.isArray(userData)){
       if(userData.length > 0){
          console.log('json');
-      } return userData
+          return userData
+      } 
     } 
     const storageUsers = userStoragedService.getUsers()
     if(storageUsers){
