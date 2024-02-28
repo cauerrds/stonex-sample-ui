@@ -25,8 +25,7 @@ const UserList = ({users}:UserListProps) => {
       if(userData.length > 0) return userData
     } 
     const storageUsers = userStoragedService.getUsers()
-    if(storageUsers){
-      
+    if(storageUsers){ 
       return storageUsers
     } 
   }, [userData])
@@ -86,9 +85,8 @@ const UserList = ({users}:UserListProps) => {
   ));
 
   return (
-    <>
-   
-    <Drawer offset={8} onClose={DrawerClose} opened={DrawerState}>
+    <> 
+    {/* <Drawer offset={8} onClose={DrawerClose} opened={DrawerState}>
       <Paper p="md" shadow="md">
       <Container>
         <Text className={classes.name} pb={4} mb={20} fz={20}>{currentUser?.firstName}<span style={{fontSize: '14px'}}>{` '${currentUser?.nickname}' `}</span>{currentUser?.lastName}</Text>
@@ -121,7 +119,7 @@ const UserList = ({users}:UserListProps) => {
           <Button onClick={() => {handleDelete(currentUser?.id as string)}}>Confirm</Button>
         </Flex>
       </Modal>
-    </Drawer>
+    </Drawer> */}
     <Table.ScrollContainer minWidth={430}>
       <Table verticalSpacing="sm">
         <Table.Thead>
