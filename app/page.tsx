@@ -14,7 +14,10 @@ interface InteralAPIRes {
   data?: any
 }
 
-const getUsersData = async ({host}: getUsersDataProps): Promise<IUser[]> => {
+const getUsersData = async ({host}: getUsersDataProps): Promise<IUser[] | [] > => {
+  if (host.includes('localhost')){
+    return []
+  } 
   const baseURL = FormatHost(host)
   const url = `${baseURL}/api/users`
   console.log(url);
