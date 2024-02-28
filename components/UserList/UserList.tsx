@@ -19,7 +19,7 @@ const UserList = ({users, isLocalHost}:UserListProps) => {
   const [EditState, {toggle: EditTogle}] = useDisclosure(false);
   const [ModalState, {toggle: ModalTogle, close: ModalClose}] = useDisclosure(false);
   const [currentUser, setCurrentUser] = useState<IUser>()
-  const [userData, setUserData ] = useState(users)
+  const [userData, setUserData ] = useState(users || [] )
 
   const userList = useMemo(()=>{
     if(Array.isArray(userData) && !isLocalHost){
@@ -37,7 +37,6 @@ const UserList = ({users, isLocalHost}:UserListProps) => {
     userStoragedService.storeUsersInLocalStorage(usersDb)
     if(userData.length < 1){
       setUserData(usersDb)
-
     }
 
 
@@ -62,7 +61,6 @@ const UserList = ({users, isLocalHost}:UserListProps) => {
   }
   return (
     <>
-   
     <Drawer offset={8} onClose={DrawerClose} opened={DrawerState}>
       <Paper p="md" shadow="md">
       <Container>
