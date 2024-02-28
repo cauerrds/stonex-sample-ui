@@ -22,7 +22,6 @@ const UserList = ({users, isLocalHost}:UserListProps) => {
   const [userData, setUserData ] = useState(users)
 
   const userList = useMemo(()=>{
-    
     if(Array.isArray(userData) && !isLocalHost){
       console.log('here');
       if(userData.length > 0){
@@ -36,9 +35,11 @@ const UserList = ({users, isLocalHost}:UserListProps) => {
     } 
 
     userStoragedService.storeUsersInLocalStorage(usersDb)
-    console.log('usersDb');
+    if(userData.length < 1){
+      setUserData(usersDb)
 
-    return usersDb
+    }
+
 
   }, [userData])
 
@@ -53,7 +54,7 @@ const UserList = ({users, isLocalHost}:UserListProps) => {
     if(currentUrl.includes('localhost')){      
       userLocalService.deleteUser(currentUrl, id)
     } else {
-      const newUserList= await userStoragedService.deleteUser(userList, id)
+      const newUserList= await userStoragedService.deleteUser(userList as IUser[], id)
       setUserData(newUserList)
     }
       ModalClose()
@@ -82,7 +83,7 @@ const UserList = ({users, isLocalHost}:UserListProps) => {
       </Flex>
       <Collapse in={EditState}>
           { EditState  &&
-            <EditForm users={userList} EditTogle={EditTogle} DrawerClose={DrawerClose} user={{...currentUser} as IUser} setUserData={setUserData} />
+            <EditForm users={userList as IUser[]} EditTogle={EditTogle} DrawerClose={DrawerClose} user={{...currentUser} as IUser} setUserData={setUserData} />
           }
       </Collapse>
     </Paper>
