@@ -19,7 +19,7 @@ const UserList = ({users, isLocalHost}:UserListProps) => {
   const [EditState, {toggle: EditTogle}] = useDisclosure(false);
   const [ModalState, {toggle: ModalTogle, close: ModalClose}] = useDisclosure(false);
   const [currentUser, setCurrentUser] = useState<IUser>()
-  const [userData, setUserData ] = useState(users || [] )
+  const [userData, setUserData ] = useState(users || usersDb)
 
   const userList = useMemo(()=>{
     if(Array.isArray(userData) && !isLocalHost){
@@ -33,14 +33,9 @@ const UserList = ({users, isLocalHost}:UserListProps) => {
       console.log('storageUsers');
       return storageUsers
     } 
-
     userStoragedService.storeUsersInLocalStorage(usersDb)
-    if(userData.length < 1){
-      setUserData(usersDb)
-    }
-
-
-  }, [userData])
+    return userData
+  }, [userData, isLocalHost])
 
 
   const handleUserDrawer = (user: IUser) =>{
