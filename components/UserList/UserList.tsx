@@ -7,6 +7,9 @@ import { UserDrawer } from '../UserDrawer/UserDrawer';
 import classes from './UserList.module.css'
 import { AddForm } from '../AddForm/AddForm';
 import { filterOptions } from '../HomeScreen/HomeScree';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../redux/store/store';
+import { filterList } from '../../redux/features/users';
 
 export interface UserListProps {
   users?: IUser[]
@@ -19,6 +22,8 @@ const UserList = ({users, filterData}:UserListProps) => {
   const [AddDrawerState, {close: AddDrawerClose, open: AddDrawerOpen }] = useDisclosure(false);
   const [currentUser, setCurrentUser] = useState<IUser>()
   const [currentFilter, setCurrentFilter] = useState<filterOptions>("name")
+  const dispatch = useDispatch<AppDispatch>();
+
   const userList = useMemo(()=>{
     return users
   }, [users])
@@ -29,7 +34,12 @@ const UserList = ({users, filterData}:UserListProps) => {
   }
 
   const handleFilter = (filter: filterOptions) => {
-    filterData(filter, userList)
+    let currentUrl = window.location.href
+    if(currentUrl.includes('localhost')){
+      dispatch(filterList(filter))
+    } else {
+      filterData(filter, userList)
+    }
     setCurrentFilter(filter)
   }
 
@@ -39,7 +49,7 @@ const UserList = ({users, filterData}:UserListProps) => {
     <Flex maw={1024} w={'full'} m={'auto'} p={16} justify={'space-between'} >
       <Button onClick={AddDrawerOpen}>Add Customer</Button>
       <Select 
-        onChange={(_value, option) => setCurrentFilter(option.value as filterOptions)}
+        onChange={(_value, option) => handleFilter(option.value as filterOptions)}
         data={[{ value: 'bank', label: 'Bank' }, { value: 'name', label: 'Name' }]}
         value={currentFilter ? currentFilter : ""}
       />

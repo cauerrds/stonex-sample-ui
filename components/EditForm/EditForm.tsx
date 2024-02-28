@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store/store';
 import { getAllUsers } from '../../redux/features/usertsActions';
 import { filterOptions } from '../HomeScreen/HomeScree';
+import { filterList } from '../../redux/features/users';
 
 export interface EditFormProps {
   user: IUser,
@@ -42,6 +43,7 @@ const EditForm = ({user, filterData, DrawerClose, EditTogle, users, currentFilte
     if(currentUrl.includes('localhost')){
       await userLocalService.editUser(currentUrl, editedUser)
       const res = await dispatch(getAllUsers())
+      dispatch(filterList(currentFilter))
     } else {
       const newUserList = await userStoragedService.editUser(users, editedUser)
       filterData(currentFilter, newUserList)

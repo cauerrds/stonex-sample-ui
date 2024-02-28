@@ -13,6 +13,7 @@ import { AppDispatch } from '../../redux/store/store';
 import { getAllUsers } from '../../redux/features/usertsActions';
 import { userStoragedService } from '../../service/users.storaged.service';
 import { filterOptions } from '../HomeScreen/HomeScree';
+import { filterList } from '../../redux/features/users';
 
 export interface AddFormProps {
   filterData:  (filterType?: filterOptions, data?: IUser[]) => void
@@ -61,6 +62,7 @@ const form = useForm({
     if(currentUrl.includes('localhost')){
       await userLocalService.addUser(newUser)
       const res = await dispatch(getAllUsers())
+      dispatch(filterList(currentFilter))
     } else {
       const newUserList = await userStoragedService.addUSer(users, newUser)
       filterData(currentFilter, newUserList)

@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux"
 import { AppDispatch } from "../../redux/store/store"
 import { getAllUsers } from "../../redux/features/usertsActions"
 import { filterOptions } from "../HomeScreen/HomeScree"
+import { filterList } from "../../redux/features/users"
 
 export interface UserDrawerProps {
     drawerState: boolean
@@ -32,6 +33,7 @@ const UserDrawer = ({drawerState, drawerClose, currentUser, userList, filterData
     if(currentUrl.includes('localhost')){      
       await userLocalService.deleteUser(currentUrl, id)
       await dispatch(getAllUsers())
+      dispatch(filterList(currentFilter))
     } else {
       const newUserList= await userStoragedService.deleteUser(userList as IUser[], id)
       filterData(currentFilter, newUserList)
