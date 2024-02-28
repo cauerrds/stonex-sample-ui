@@ -12,8 +12,9 @@ import  classes  from './UserList.module.css'
 
 export interface UserListProps {
   users: IUser[]
+  isLocalHost: boolean
 }
-const UserList = ({users}:UserListProps) => {
+const UserList = ({users, isLocalHost}:UserListProps) => {
   const [DrawerState, {close: DrawerClose, open: DrawerOpen }] = useDisclosure(false);
   const [EditState, {toggle: EditTogle}] = useDisclosure(false);
   const [ModalState, {toggle: ModalTogle, close: ModalClose}] = useDisclosure(false);
@@ -21,9 +22,8 @@ const UserList = ({users}:UserListProps) => {
   const [userData, setUserData ] = useState(users)
 
   const userList = useMemo(()=>{
-    console.log(process.env.VERCEL_ENV);
     
-    if(Array.isArray(userData) && process.env.VERCEL_ENV != "production"){
+    if(Array.isArray(userData) && !isLocalHost){
       console.log('here');
       if(userData.length > 0){
          return userData
