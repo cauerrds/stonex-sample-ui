@@ -21,10 +21,11 @@ const UserList = ({users}:UserListProps) => {
   const [userData, setUserData ] = useState(users)
 
   const userList = useMemo(()=>{
-    if(Array.isArray(userData)){
+    if(Array.isArray(userData) && process.env.VERCEL_ENV != "production"){
+      console.log('here');
+      
       if(userData.length > 0){
-         console.log('json');
-          return userData
+         return userData
       } 
     } 
     const storageUsers = userStoragedService.getUsers()
