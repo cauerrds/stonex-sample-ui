@@ -48,7 +48,7 @@ const UserList = ({users}:UserListProps) => {
     if(currentUrl.includes('localhost')){      
       userLocalService.deleteUser(currentUrl, id)
     } else {
-      const newUserList= await userStoragedService.deleteUser(userList, id)
+      const newUserList= await userStoragedService.deleteUser(userList as IUser[], id)
       setUserData(newUserList)
     }
       ModalClose()
