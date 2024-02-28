@@ -29,10 +29,12 @@ const storeUsersInLocalStorage = (users: IUser[]) => {
 const deleteUser = async (users: IUser[], id: string) => {
     const user = users.find((user) => user.id === id)
     const userIdenx = users.findIndex((u) => u === user)
-    users.splice(userIdenx, 1);
-    const baseUsers = JSON.stringify(users)
-    localStorage.setItem('ui-sample-stonex@db', baseUsers)
-
+    if (userIdenx !== -1) {
+        users.splice(userIdenx, 1);
+        const baseUsers = JSON.stringify(users)
+        localStorage.setItem('ui-sample-stonex@db', baseUsers)
+        return users
+    }
     return users
 }
 

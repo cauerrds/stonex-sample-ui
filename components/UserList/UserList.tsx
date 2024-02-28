@@ -41,13 +41,12 @@ const UserList = ({users}:UserListProps) => {
     const currentUrl = window.location.href
     if(currentUrl.includes('localhost')){      
       userLocalService.deleteUser(currentUrl, id)
+    } else {
+      const newUserList= await userStoragedService.deleteUser(userList, id)
+      setUserData(newUserList)
+    }
       ModalClose()
       DrawerClose()
-    }
-    if(userList) {
-     const newUserList= await userStoragedService.deleteUser(userList, id)
-     return setUserData(newUserList)
-    }
   }
 
   const rows = userList?.map((item) => (
