@@ -120,7 +120,7 @@ const UserList = ({users}:UserListProps) => {
         </Flex>
       </Modal>
     </Drawer>
-    {/* <Table.ScrollContainer minWidth={430}>
+    <Table.ScrollContainer minWidth={430}>
       <Table verticalSpacing="sm">
         <Table.Thead>
           <Table.Tr>
@@ -132,9 +132,9 @@ const UserList = ({users}:UserListProps) => {
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
-    </Table.ScrollContainer> */}
+    </Table.ScrollContainer>
     </>
   );
 }
 
-export { UserList }
+export default UserList

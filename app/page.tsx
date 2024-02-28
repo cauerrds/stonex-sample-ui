@@ -1,4 +1,4 @@
-import { UserList } from "../components/UserList/UserList";
+import dynamic from "next/dynamic";
 import { IUser } from "../database/users.types";
 import { FormatHost } from "../helpers/FormatHost";
 import { headers } from "next/headers";
@@ -25,13 +25,13 @@ const getUsersData = async ({host}: getUsersDataProps): Promise<IUser[] | [] > =
   return data as IUser[]
 }
 
-
+const UserList = dynamic(()=> import("../components/UserList/UserList").then(module => module.default))
 
 export default async function HomePage() {
   const header = headers()
   const host = header.get('x-forwarded-host')
   const data = await getUsersData({host: host as string})
   return (
-    <UserList users={data}/>
+     <UserList users={data}/>
   )
 }
