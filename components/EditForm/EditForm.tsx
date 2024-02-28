@@ -1,12 +1,20 @@
 'use client'
 import { TextInput, Button, Group, Box } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { IPatchRequestBody, IUser } from '../../database/users.types';
+import { Dispatch, SetStateAction } from 'react';
+import { userLocalService } from '../../service/users.local.service';
+import { IUser } from '../../database/users.types';
+import { userStoragedService } from '../../service/users.storaged.service';
 
+export interface EditFormProps {
+  user: IUser,
+  setUserData:  Dispatch<SetStateAction<IUser[]>>
+  DrawerClose: () => void
+  EditTogle: () => void
+  users: IUser[]
+}
 
-const EditForm = (user: IUser) => {
-  let currentUrl = window.location.href
-
+const EditForm = ({user, setUserData, DrawerClose, EditTogle, users}: EditFormProps) => {
   const form = useForm({
     initialValues: {
         city: user.city || "  ",
@@ -23,26 +31,19 @@ const EditForm = (user: IUser) => {
     },
   });
 
-  const handleSubmit = async (user: IUser) => {
-    const url = `${currentUrl}/api/users/${user.id}`
-    try {
-      const response = await fetch(url, {
-      method: 'PATCH', 
-      headers: {
-        'Content-Type': 'application/json', 
-      },
-      body: JSON.stringify(user), 
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+  const handleSubmit = async (editedUser: IUser) => {
+    const currentUrl = window.location.href
+    if(currentUrl.includes('localhost')){
+      await userLocalService.editUser(currentUrl, editedUser)
+      const res = await userLocalService.getUsers(currentUrl)
+      setUserData(res.data)
+    } else {
+      const newUserList = await userStoragedService.editUser(users, editedUser)
+      setUserData(newUserList)
     }
-
-    const data = await response.json(); 
-    console.log(data); 
-  } catch (error) {
-    console.error('There was a problem with your fetch operation:', error);
-  }
+    DrawerClose()
+    EditTogle()
+    return
   }
 
   return (

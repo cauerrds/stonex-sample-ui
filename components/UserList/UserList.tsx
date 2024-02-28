@@ -2,44 +2,55 @@
 import { Avatar, Badge, Table, Group, Text, Select, Collapse, Drawer, Paper, Container, Box, Flex, Button, Modal, Title, } from '@mantine/core';
 import { IUser } from '../../database/users.types';
 import { useDisclosure } from '@mantine/hooks';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import  classes  from './UserList.module.css'
 import { Edit } from '../icons/Edit';
 import { EditForm } from '../EditForm/EditForm';
+import { userLocalService } from '../../service/users.local.service';
+import { userStoragedService } from '../../service/users.storaged.service';
+import { usersDb } from '../../database/users';
 
 export interface UserListProps {
   users: IUser[]
 }
 const UserList = ({users}:UserListProps) => {
-  const [opened, {close, open }] = useDisclosure(false);
+  const [DrawerState, {close: DrawerClose, open: DrawerOpen }] = useDisclosure(false);
   const [EditState, {toggle: EditTogle}] = useDisclosure(false);
   const [ModalState, {toggle: ModalTogle, close: ModalClose}] = useDisclosure(false);
   const [currentUser, setCurrentUser] = useState<IUser>()
+  const [userData, setUserData ] = useState(users)
+
+  const userList = useMemo(()=>{
+    if(Array.isArray(userData)){
+      return userData
+    } 
+    const storageUsers = userStoragedService.getUsers()
+    if(storageUsers) return storageUsers
+
+    userStoragedService.storeUsersInLocalStorage(usersDb)
+    return usersDb
+
+  }, [userData])
+
   const handleUserDrawer = (user: IUser) =>{
     setCurrentUser(user)
-    open()
+    DrawerOpen()
   }
 
   const handleDelete = async (id: string) => {
     const currentUrl = window.location.href
-    const url = `${currentUrl}/api/users/${id}`
-    try {
-      const response = await fetch(url, {
-      method: 'DELETE', 
-      headers: {
-        'Content-Type': 'application/json', 
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+    if(currentUrl.includes('localhost')){      
+      userLocalService.deleteUser(currentUrl, id)
+      ModalClose()
+      DrawerClose()
     }
-    } catch (error) {
-    console.error('There was a problem with your fetch operation:', error);
+    if(userList) {
+     const newUserList= await userStoragedService.deleteUser(userList, id)
+     return setUserData(newUserList)
     }
   }
 
-  const rows = users.map((item) => (
+  const rows = userList?.map((item) => (
     <Table.Tr key={item.nickname} onClick={()=>handleUserDrawer(item)}>
       <Table.Td>
         <Group gap="sm">
@@ -72,7 +83,7 @@ const UserList = ({users}:UserListProps) => {
   return (
     <>
       {currentUser &&
-    <Drawer key={currentUser?.id} offset={8} onClose={close} opened={opened}>
+    <Drawer key={currentUser?.id} offset={8} onClose={DrawerClose} opened={DrawerState}>
       <Paper p="md" shadow="md">
       <Container>
         <Text className={classes.name} pb={4} mb={20} fz={20}>{currentUser?.firstName}<span style={{fontSize: '14px'}}>{` '${currentUser?.nickname}' `}</span>{currentUser?.lastName}</Text>
@@ -91,7 +102,7 @@ const UserList = ({users}:UserListProps) => {
         <Button bg={'red'} onClick={ModalTogle}>Delete</Button>
       </Flex>
       <Collapse in={EditState}>
-          <EditForm {...currentUser} />
+          <EditForm users={userList} EditTogle={EditTogle} DrawerClose={DrawerClose} user={{...currentUser}} setUserData={setUserData} />
       </Collapse>
     </Paper>
       <Modal opened={ModalState} onClose={ModalClose}>
