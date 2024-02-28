@@ -21,9 +21,10 @@ const UserList = ({users}:UserListProps) => {
   const [userData, setUserData ] = useState(users)
 
   const userList = useMemo(()=>{
+    console.log(process.env.VERCEL_ENV);
+    
     if(Array.isArray(userData) && process.env.VERCEL_ENV != "production"){
       console.log('here');
-      
       if(userData.length > 0){
          return userData
       } 
