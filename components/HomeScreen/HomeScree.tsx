@@ -27,7 +27,7 @@ export const HomeScreen = ({userList}:HomeScreenProps)=> {
     fetchUsers();
  }, []);
     
-if(userList){
+if(userList.length > 0){
     return  <UserList setList={setList} users={userList} ></UserList>
 }    
 
