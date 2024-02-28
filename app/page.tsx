@@ -15,7 +15,7 @@ interface InteralAPIRes {
 }
 
 const getUsersData = async ({host}: getUsersDataProps): Promise<IUser[] | [] > => {
-  if (host.includes('localhost')){
+  if (!host.includes('localhost')){
     return []
   } 
   const baseURL = FormatHost(host)
