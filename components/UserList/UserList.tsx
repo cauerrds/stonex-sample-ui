@@ -2,7 +2,7 @@
 import { Table, Group, Text, Collapse, Drawer, Paper, Container, Flex, Button, Modal, Title, } from '@mantine/core';
 import { IUser } from '../../database/users.types';
 import { useDisclosure } from '@mantine/hooks';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Edit } from '../icons/Edit';
 import { EditForm } from '../EditForm/EditForm';
 import { userLocalService } from '../../service/users.local.service';
@@ -26,17 +26,17 @@ const UserList = ({users}:UserListProps) => {
     } 
     const storageUsers = userStoragedService.getUsers()
     if(storageUsers){
-      console.log('storageUsers');
       
       return storageUsers
     } 
-
-    userStoragedService.storeUsersInLocalStorage(usersDb)
-    console.log('usersDb');
-
-    return usersDb
-
   }, [userData])
+
+
+  useEffect(()=>{
+    if(userList){
+      userStoragedService.storeUsersInLocalStorage(usersDb)
+    }
+  }, [])
 
   const handleUserDrawer = (user: IUser) =>{
     setCurrentUser(user)

@@ -19,13 +19,13 @@ const getUsersData = async ({host}: getUsersDataProps): Promise<IUser[] | [] > =
     return []
   } 
   const baseURL = FormatHost(host)
-  const url = `${baseURL}/api/users`
-  console.log(url);
-  
+  const url = `${baseURL}/api/users`  
   const res =  await fetch(url)
   const {data}:InteralAPIRes = await res.json()
   return data as IUser[]
 }
+
+
 
 export default async function HomePage() {
   const header = headers()
