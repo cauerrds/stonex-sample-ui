@@ -1,0 +1,10 @@
+.logo {
+    h1 {
+        font-size: 44px;
+        margin: 0;
+    }
+
+    span{
+        font-size: 16px;
+    }
+}
