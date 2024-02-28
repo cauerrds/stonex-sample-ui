@@ -3,6 +3,7 @@ import React from "react";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { theme } from "../theme";
 import { Header } from "../components/Header/Header";
+import { ReduxProvider } from "../redux/provider/ReduxProvider";
 
 export const metadata = {
   title: "Stonex Customer Manager",
@@ -21,10 +22,12 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>
-          <Header/>
-          {children}
+        <ReduxProvider>
+          <MantineProvider theme={theme}>
+            <Header/>
+            {children}
           </MantineProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

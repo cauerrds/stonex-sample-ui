@@ -1,9 +1,7 @@
-.name {
-    border-bottom: 1px solid black;
-}
 
-.info {
-    span {
-        font-weight: 600;
-    }
+.row{
+    cursor: pointer;
+}
+.row:hover{
+    opacity: 50%;
 }

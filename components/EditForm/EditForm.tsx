@@ -5,16 +5,22 @@ import { Dispatch, SetStateAction } from 'react';
 import { userLocalService } from '../../service/users.local.service';
 import { IUser } from '../../database/users.types';
 import { userStoragedService } from '../../service/users.storaged.service';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../redux/store/store';
+import { getAllUsers } from '../../redux/features/usertsActions';
+import { filterOptions } from '../HomeScreen/HomeScree';
 
 export interface EditFormProps {
   user: IUser,
-  setList:  Dispatch<SetStateAction<IUser[] | undefined>>
+  filterData: (filterType?: filterOptions, data?: IUser[]) => void
+  currentFilter: filterOptions
   DrawerClose: () => void
   EditTogle: () => void
   users: IUser[]
 }
 
-const EditForm = ({user, setList, DrawerClose, EditTogle, users}: EditFormProps) => {
+const EditForm = ({user, filterData, DrawerClose, EditTogle, users, currentFilter}: EditFormProps) => {
+  const dispatch = useDispatch<AppDispatch>();
   const form = useForm({
     initialValues: {
         city: user.city || "  ",
@@ -35,14 +41,14 @@ const EditForm = ({user, setList, DrawerClose, EditTogle, users}: EditFormProps)
     const currentUrl = window.location.href
     if(currentUrl.includes('localhost')){
       await userLocalService.editUser(currentUrl, editedUser)
-      const res = await userLocalService.getUsers(currentUrl)
-      setList(res.data)
+      const res = await dispatch(getAllUsers())
     } else {
       const newUserList = await userStoragedService.editUser(users, editedUser)
-      setList(newUserList)
+      filterData(currentFilter, newUserList)
     }
     DrawerClose()
     EditTogle()
+    
     return
   }
 

@@ -50,7 +50,15 @@ const editUser = async (users: IUser[], updatedUser: IUser) => {
     }
 };
 
+const addUSer = async (users: IUser[], newUSer: IUser) => {
+    users.push(newUSer)
+    const updatedUsersJson = JSON.stringify(users);
+    localStorage.setItem('ui-sample-stonex@db', updatedUsersJson);
+    return users;
+}
+
 const userStoragedService = {
+    addUSer,
     deleteUser,
     getUsers,
     storeUsersInLocalStorage,
