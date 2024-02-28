@@ -86,7 +86,7 @@ const UserList = ({users}:UserListProps) => {
 
   return (
     <> 
-    {/* <Drawer offset={8} onClose={DrawerClose} opened={DrawerState}>
+    <Drawer offset={8} onClose={DrawerClose} opened={DrawerState}>
       <Paper p="md" shadow="md">
       <Container>
         <Text className={classes.name} pb={4} mb={20} fz={20}>{currentUser?.firstName}<span style={{fontSize: '14px'}}>{` '${currentUser?.nickname}' `}</span>{currentUser?.lastName}</Text>
@@ -119,8 +119,8 @@ const UserList = ({users}:UserListProps) => {
           <Button onClick={() => {handleDelete(currentUser?.id as string)}}>Confirm</Button>
         </Flex>
       </Modal>
-    </Drawer> */}
-    <Table.ScrollContainer minWidth={430}>
+    </Drawer>
+    {/* <Table.ScrollContainer minWidth={430}>
       <Table verticalSpacing="sm">
         <Table.Thead>
           <Table.Tr>
@@ -132,7 +132,7 @@ const UserList = ({users}:UserListProps) => {
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
-    </Table.ScrollContainer>
+    </Table.ScrollContainer> */}
     </>
   );
 }
