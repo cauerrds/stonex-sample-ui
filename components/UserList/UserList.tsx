@@ -10,7 +10,7 @@ import { filterOptions } from '../HomeScreen/HomeScree';
 
 export interface UserListProps {
   users?: IUser[]
-  filterData: (filterType?: filterOptions) => void
+  filterData: (filterType?: filterOptions, data?: IUser[]) => void
 }
 
 
@@ -28,17 +28,21 @@ const UserList = ({users, filterData}:UserListProps) => {
     DrawerOpen()
   }
 
+  const handleFilter = (filter: filterOptions) => {
+    filterData(filter, userList)
+    setCurrentFilter(filter)
+  }
 
   return (
     <>
     <UserDrawer currentFilter={currentFilter} currentUser={currentUser} drawerClose={DrawerClose} drawerState={DrawerState} filterData={filterData} userList={userList} />
-    <Flex maw={1024} w={'full'} m={'auto'} p={16} >
+    <Flex maw={1024} w={'full'} m={'auto'} p={16} justify={'space-between'} >
+      <Button onClick={AddDrawerOpen}>Add Customer</Button>
       <Select 
         onChange={(_value, option) => setCurrentFilter(option.value as filterOptions)}
         data={[{ value: 'bank', label: 'Bank' }, { value: 'name', label: 'Name' }]}
         value={currentFilter ? currentFilter : ""}
       />
-      <Button onClick={AddDrawerOpen}>Add Customer</Button>
       <Drawer title='New Customer Data' position='right' onClose=   {AddDrawerClose} opened={AddDrawerState}>
           <AddForm currentFilter={currentFilter} AddDrawerClose={AddDrawerClose}  filterData={filterData} users={userList as IUser[]} />
       </Drawer>
@@ -47,8 +51,8 @@ const UserList = ({users, filterData}:UserListProps) => {
       <Table verticalSpacing="sm">
         <Table.Thead>
           <Table.Tr>
-            <Table.Th>Name</Table.Th>
-            <Table.Th>Bank</Table.Th>
+            <Table.Th className={classes.tableHead} onClick={() =>handleFilter('name')}>Name</Table.Th>
+            <Table.Th className={classes.tableHead} onClick={() =>handleFilter('bank')}>Bank</Table.Th>
             <Table.Th>Agency</Table.Th>
             <Table.Th>Account</Table.Th>
           </Table.Tr>

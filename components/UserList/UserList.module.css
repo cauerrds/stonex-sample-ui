@@ -5,3 +5,9 @@
 .row:hover{
     opacity: 50%;
 }
+
+.tableHead:hover {
+    cursor: pointer;
+    border-bottom: 1px solid black;
+    opacity: 50%;
+}
