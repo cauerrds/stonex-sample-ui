@@ -25,17 +25,19 @@ const UserList = ({users}:UserListProps) => {
       if(userData.length > 0) return userData
     } 
     const storageUsers = userStoragedService.getUsers()
-    if(storageUsers){ 
+    if(storageUsers){
+      console.log('storageUsers');
+      
       return storageUsers
     } 
+
+    userStoragedService.storeUsersInLocalStorage(usersDb)
+    console.log('usersDb');
+
+    return usersDb
+
   }, [userData])
 
-
-  useEffect(()=>{
-    if(!userList){
-      userStoragedService.storeUsersInLocalStorage(usersDb)
-    }
-  }, [])
 
   const handleUserDrawer = (user: IUser) =>{
     setCurrentUser(user)
@@ -47,7 +49,7 @@ const UserList = ({users}:UserListProps) => {
     if(currentUrl.includes('localhost')){      
       userLocalService.deleteUser(currentUrl, id)
     } else {
-      const newUserList= await userStoragedService.deleteUser(userList as IUser[], id)
+      const newUserList= await userStoragedService.deleteUser(userList, id)
       setUserData(newUserList)
     }
       ModalClose()
@@ -85,7 +87,8 @@ const UserList = ({users}:UserListProps) => {
   ));
 
   return (
-    <> 
+    <>
+   
     <Drawer offset={8} onClose={DrawerClose} opened={DrawerState}>
       <Paper p="md" shadow="md">
       <Container>
@@ -106,7 +109,7 @@ const UserList = ({users}:UserListProps) => {
       </Flex>
       <Collapse in={EditState}>
           { EditState  &&
-            <EditForm users={userList as IUser[]} EditTogle={EditTogle} DrawerClose={DrawerClose} user={{...currentUser} as IUser} setUserData={setUserData} />
+            <EditForm users={userList} EditTogle={EditTogle} DrawerClose={DrawerClose} user={{...currentUser} as IUser} setUserData={setUserData} />
           }
       </Collapse>
     </Paper>
@@ -137,4 +140,4 @@ const UserList = ({users}:UserListProps) => {
   );
 }
 
-export default UserList
+export { UserList }
