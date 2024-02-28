@@ -25,9 +25,15 @@ const UserList = ({users}:UserListProps) => {
       if(userData.length > 0) return userData
     } 
     const storageUsers = userStoragedService.getUsers()
-    if(storageUsers) return storageUsers
+    if(storageUsers){
+      console.log('storageUsers');
+      
+      return storageUsers
+    } 
 
     userStoragedService.storeUsersInLocalStorage(usersDb)
+    console.log('usersDb');
+
     return usersDb
 
   }, [userData])
