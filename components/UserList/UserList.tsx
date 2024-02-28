@@ -33,7 +33,7 @@ const UserList = ({users}:UserListProps) => {
 
 
   useEffect(()=>{
-    if(userList){
+    if(!userList){
       userStoragedService.storeUsersInLocalStorage(usersDb)
     }
   }, [])
