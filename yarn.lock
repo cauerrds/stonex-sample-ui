@@ -167,6 +167,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mantine/form@npm:^7.6.1":
+  version: 7.6.1
+  resolution: "@mantine/form@npm:7.6.1"
+  dependencies:
+    fast-deep-equal: "npm:^3.1.3"
+    klona: "npm:^2.0.6"
+  peerDependencies:
+    react: ^18.2.0
+  checksum: 57c3891f8be331059cc4a040c5d83a655164761c8f787fc2a73e0d281ddc881bb2570eb1ddada67d8b3b43c487006c1ceab60e0ff179f544bb4a1b452c9f8a72
+  languageName: node
+  linkType: hard
+
 "@mantine/hooks@npm:7.6.1":
   version: 7.6.1
   resolution: "@mantine/hooks@npm:7.6.1"
@@ -2294,6 +2306,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"klona@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "klona@npm:2.0.6"
+  checksum: 94eed2c6c2ce99f409df9186a96340558897b3e62a85afdc1ee39103954d2ebe1c1c4e9fe2b0952771771fa96d70055ede8b27962a7021406374fdb695fd4d01
+  languageName: node
+  linkType: hard
+
 "language-subtag-registry@npm:^0.3.20":
   version: 0.3.22
   resolution: "language-subtag-registry@npm:0.3.22"
@@ -2361,6 +2380,7 @@ __metadata:
   resolution: "mantine-minimal-next-template@workspace:."
   dependencies:
     "@mantine/core": "npm:7.6.1"
+    "@mantine/form": "npm:^7.6.1"
     "@mantine/hooks": "npm:7.6.1"
     "@types/node": "npm:20.8.10"
     "@types/react": "npm:18.2.36"
