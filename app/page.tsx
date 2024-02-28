@@ -32,6 +32,6 @@ export default async function HomePage() {
   const host = header.get('x-forwarded-host')
   const data = await getUsersData({host: host as string})
   return (
-     <UserList isLocalHost={host?.includes('localhost')} users={data}/>
+     <UserList isLocalHost={host?.includes('localhost') || false} users={data}/>
   )
 }
