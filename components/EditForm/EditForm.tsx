@@ -8,13 +8,13 @@ import { userStoragedService } from '../../service/users.storaged.service';
 
 export interface EditFormProps {
   user: IUser,
-  setUserData:  Dispatch<SetStateAction<IUser[]>>
+  setList:  Dispatch<SetStateAction<IUser[] | undefined>>
   DrawerClose: () => void
   EditTogle: () => void
   users: IUser[]
 }
 
-const EditForm = ({user, setUserData, DrawerClose, EditTogle, users}: EditFormProps) => {
+const EditForm = ({user, setList, DrawerClose, EditTogle, users}: EditFormProps) => {
   const form = useForm({
     initialValues: {
         city: user.city || "  ",
@@ -36,10 +36,10 @@ const EditForm = ({user, setUserData, DrawerClose, EditTogle, users}: EditFormPr
     if(currentUrl.includes('localhost')){
       await userLocalService.editUser(currentUrl, editedUser)
       const res = await userLocalService.getUsers(currentUrl)
-      setUserData(res.data)
+      setList(res.data)
     } else {
       const newUserList = await userStoragedService.editUser(users, editedUser)
-      setUserData(newUserList)
+      setList(newUserList)
     }
     DrawerClose()
     EditTogle()

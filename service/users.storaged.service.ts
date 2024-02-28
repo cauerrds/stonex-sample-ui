@@ -15,7 +15,7 @@ const getUsers = () => {
     return
 };
 
-const storeUsersInLocalStorage = (users: IUser[]) => {
+const storeUsersInLocalStorage = async (users: IUser[]) => {
     if (typeof window !== 'undefined' && window.localStorage) {
         try {
             const usersJson = JSON.stringify(users);

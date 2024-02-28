@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import { IUser } from "../database/users.types";
 import { FormatHost } from "../helpers/FormatHost";
 import { headers } from "next/headers";
+import { HomeScreen } from "../components/HomeScreen/HomeScree";
 
 
 interface getUsersDataProps {
@@ -32,6 +33,6 @@ export default async function HomePage() {
   const host = header.get('x-forwarded-host')
   const data = await getUsersData({host: host as string})
   return (
-     <UserList isLocalHost={host?.includes('localhost') || true} users={data}/>
+     <HomeScreen userList={data}></HomeScreen>
   )
 }

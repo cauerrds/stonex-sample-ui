@@ -2,7 +2,7 @@
 import { Table, Group, Text, Collapse, Drawer, Paper, Container, Flex, Button, Modal, Title, } from '@mantine/core';
 import { IUser } from '../../database/users.types';
 import { useDisclosure } from '@mantine/hooks';
-import { useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { Edit } from '../icons/Edit';
 import { EditForm } from '../EditForm/EditForm';
 import { userLocalService } from '../../service/users.local.service';
@@ -11,31 +11,18 @@ import { usersDb } from '../../database/users';
 import  classes  from './UserList.module.css'
 
 export interface UserListProps {
-  users: IUser[]
-  isLocalHost: boolean
+  users?: IUser[]
+  setList: Dispatch<SetStateAction<IUser[] | undefined>>
 }
-const UserList = ({users, isLocalHost}:UserListProps) => {
+const UserList = ({users, setList}:UserListProps) => {
   const [DrawerState, {close: DrawerClose, open: DrawerOpen }] = useDisclosure(false);
   const [EditState, {toggle: EditTogle}] = useDisclosure(false);
   const [ModalState, {toggle: ModalTogle, close: ModalClose}] = useDisclosure(false);
   const [currentUser, setCurrentUser] = useState<IUser>()
-  const [userData, setUserData ] = useState(users || usersDb)
 
   const userList = useMemo(()=>{
-    if(Array.isArray(userData) && !isLocalHost){
-      console.log('here');
-      if(userData.length > 0){
-         return userData
-      } 
-    } 
-    const storageUsers = userStoragedService.getUsers()
-    if(storageUsers){
-      console.log('storageUsers');
-      return storageUsers
-    } 
-    userStoragedService.storeUsersInLocalStorage(usersDb)
-    return userData
-  }, [userData, isLocalHost])
+    return users
+  }, [users])
 
 
   const handleUserDrawer = (user: IUser) =>{
@@ -49,7 +36,7 @@ const UserList = ({users, isLocalHost}:UserListProps) => {
       userLocalService.deleteUser(currentUrl, id)
     } else {
       const newUserList= await userStoragedService.deleteUser(userList as IUser[], id)
-      setUserData(newUserList)
+      setList(newUserList)
     }
       ModalClose()
       DrawerClose()
@@ -76,7 +63,7 @@ const UserList = ({users, isLocalHost}:UserListProps) => {
       </Flex>
       <Collapse in={EditState}>
           { EditState  &&
-            <EditForm users={userList as IUser[]} EditTogle={EditTogle} DrawerClose={DrawerClose} user={{...currentUser} as IUser} setUserData={setUserData} />
+            <EditForm users={userList as IUser[]} EditTogle={EditTogle} DrawerClose={DrawerClose} user={{...currentUser} as IUser} setList={setList} />
           }
       </Collapse>
     </Paper>
