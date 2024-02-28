@@ -108,7 +108,7 @@ const UserList = ({users}:UserListProps) => {
       </Flex>
       <Collapse in={EditState}>
           { EditState  &&
-            <EditForm users={userList} EditTogle={EditTogle} DrawerClose={DrawerClose} user={{...currentUser} as IUser} setUserData={setUserData} />
+            <EditForm users={userList as IUser[]} EditTogle={EditTogle} DrawerClose={DrawerClose} user={{...currentUser} as IUser} setUserData={setUserData} />
           }
       </Collapse>
     </Paper>
