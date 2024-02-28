@@ -23,11 +23,12 @@ const UserList = ({users}:UserListProps) => {
   const userList = useMemo(()=>{
     if(Array.isArray(userData)){
       if(userData.length > 0) return userData
+      console.log('json');
+      
     } 
     const storageUsers = userStoragedService.getUsers()
     if(storageUsers){
       console.log('storageUsers');
-      
       return storageUsers
     } 
 
