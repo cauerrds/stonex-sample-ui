@@ -55,37 +55,6 @@ const UserList = ({users}:UserListProps) => {
       ModalClose()
       DrawerClose()
   }
-
-  const rows = userList?.map((item) => (
-    <Table.Tr key={item.nickname} onClick={()=>handleUserDrawer(item)}>
-      <Table.Td>
-        <Group gap="sm">
-          <div>
-            <Text fz="sm" fw={500}>
-              {item.nickname}
-            </Text>
-            <Text fz="xs" c="dimmed">
-              {item.email}
-            </Text>
-          </div>
-        </Group>
-      </Table.Td>
-      <Table.Td>
-        <Text>
-          {item.bank}
-        </Text>
-      </Table.Td>
-      <Table.Td>
-        {item.agencyNumber}
-      </Table.Td>
-      <Table.Td>
-        <Text>
-          {item.accountNumber}
-        </Text>
-      </Table.Td>
-    </Table.Tr>
-  ));
-
   return (
     <>
    
@@ -133,7 +102,37 @@ const UserList = ({users}:UserListProps) => {
             <Table.Th>Account</Table.Th>
           </Table.Tr>
         </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
+        <Table.Tbody>
+          {userList?.map((item) => (
+            <Table.Tr key={item.nickname} onClick={()=>handleUserDrawer(item)}>
+              <Table.Td>
+                <Group gap="sm">
+                  <div>
+                    <Text fz="sm" fw={500}>
+                      {item.nickname}
+                    </Text>
+                    <Text fz="xs" c="dimmed">
+                      {item.email}
+                    </Text>
+                  </div>
+                </Group>
+              </Table.Td>
+              <Table.Td>
+                <Text>
+                  {item.bank}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                {item.agencyNumber}
+              </Table.Td>
+              <Table.Td>
+                <Text>
+                  {item.accountNumber}
+                </Text>
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
       </Table>
     </Table.ScrollContainer>
     </>
